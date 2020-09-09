@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Hotels.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hotels.Data
 {
@@ -7,5 +8,7 @@ namespace Hotels.Data
         public HotelDbContext(DbContextOptions options) : base(options)
         {
         }
+
+        public DbSet<Hotel> Hotels { get; set; }
     }
 }
