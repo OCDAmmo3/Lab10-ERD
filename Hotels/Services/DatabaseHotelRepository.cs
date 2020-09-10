@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Hotels.Services
 {
-    public class DatabaseAmenityRepository : IAmenityRepository
+    public class DatabaseHotelRepository
     {
     }
 }
