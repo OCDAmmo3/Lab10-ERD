@@ -12,6 +12,7 @@ namespace Hotels.Services
     public interface IRoomRepository
     {
         Task<IEnumerable<Room>> GetAllAsync();
+        Task<Room> GetOneByIdAsync(int id);
     }
     public class DatabaseRoomRepository : IRoomRepository
     {
@@ -25,6 +26,12 @@ namespace Hotels.Services
         public async Task<IEnumerable<Room>> GetAllAsync()
         {
             return await _context.Rooms.ToListAsync();
+        }
+
+        public async Task<Room> GetOneByIdAsync(int id)
+        {
+            var room = await _context.Rooms.FindAsync(id);
+            return room;
         }
     }
 }
