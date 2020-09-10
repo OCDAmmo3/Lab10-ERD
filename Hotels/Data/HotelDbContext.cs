@@ -16,6 +16,10 @@ namespace Hotels.Data
                     new Room { Id = 1, Name = "Honeymoon Suite", Layout = Room.RoomLayout.Studio },
                     new Room { Id = 2, Name = "Single King", Layout = Room.RoomLayout.OneBedroom }
                 );
+            modelBuilder.Entity<Hotel>()
+                .HasData(
+                    new Hotel { Id = 1, Name = "Marriot CR", StreetAddress = "3350 26th Ave", City = "Cedar Rapids", State = "IA", Phone = "3193730354" }
+                );
         }
 
         public DbSet<Hotel> Hotels { get; set; }

@@ -24,16 +24,16 @@ namespace Hotels.Controllers
 
         // GET: api/Hotels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Hotel>>> GetHotels()
+        public async Task<IEnumerable<Hotel>> GetHotels()
         {
-            return await _context.Hotels.ToListAsync();
+            return await repository.GetAllAsync();
         }
 
         // GET: api/Hotels/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Hotel>> GetHotel(long id)
         {
-            var hotel = await _context.Hotels.FindAsync(id);
+            var hotel = await repository.GetOneByIdAsync(id);
 
             if (hotel == null)
             {
