@@ -83,8 +83,7 @@ namespace Hotels.Controllers
         [HttpPost]
         public async Task<ActionResult<Room>> PostRoom(Room room)
         {
-            _context.Rooms.Add(room);
-            await _context.SaveChangesAsync();
+            await repository.CreateAsync(room);
 
             return CreatedAtAction("GetRoom", new { id = room.Id }, room);
         }
@@ -93,13 +92,13 @@ namespace Hotels.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Room>> DeleteRoom(int id)
         {
-            var room = await _context.Rooms.FindAsync(id);
+            Room room = await repository.DeleteAsync(id);
+
             if (room == null)
             {
                 return NotFound();
             }
 
-            _context.Rooms.Remove(room);
             await _context.SaveChangesAsync();
 
             return room;

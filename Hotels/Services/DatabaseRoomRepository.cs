@@ -13,6 +13,8 @@ namespace Hotels.Services
     {
         Task<IEnumerable<Room>> GetAllAsync();
         Task<Room> GetOneByIdAsync(int id);
+        Task CreateAsync(Room room);
+        Task<Room> DeleteAsync(int id);
     }
     public class DatabaseRoomRepository : IRoomRepository
     {
@@ -31,6 +33,26 @@ namespace Hotels.Services
         public async Task<Room> GetOneByIdAsync(int id)
         {
             var room = await _context.Rooms.FindAsync(id);
+            return room;
+        }
+
+        public async Task CreateAsync(Room room)
+        {
+            _context.Rooms.Add(room);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Room> DeleteAsync(int id)
+        {
+            var room = await _context.Rooms.FindAsync(id);
+
+            if (room == null)
+            {
+                return null;
+            }
+
+            _context.Rooms.Remove(room);
+            await _context.SaveChangesAsync();
             return room;
         }
     }
