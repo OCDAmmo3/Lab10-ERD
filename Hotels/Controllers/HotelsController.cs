@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hotels.Data;
 using Hotels.Models;
+using Hotels.Services;
 
 namespace Hotels.Controllers
 {
@@ -14,11 +15,11 @@ namespace Hotels.Controllers
     [ApiController]
     public class HotelsController : ControllerBase
     {
-        private readonly HotelDbContext _context;
+        private readonly IHotelRepository repository;
 
-        public HotelsController(HotelDbContext context)
+        public HotelsController(IHotelRepository repository)
         {
-            _context = context;
+            this.repository = repository;
         }
 
         // GET: api/Hotels
