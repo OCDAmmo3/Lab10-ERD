@@ -15,6 +15,7 @@ namespace Hotels.Services
         Task<Room> GetOneByIdAsync(int id);
         Task CreateAsync(Room room);
         Task<Room> DeleteAsync(int id);
+        Task<bool> UpdateAsync(Room room);
     }
     public class DatabaseRoomRepository : IRoomRepository
     {
@@ -54,6 +55,33 @@ namespace Hotels.Services
             _context.Rooms.Remove(room);
             await _context.SaveChangesAsync();
             return room;
+        }
+
+        public async Task<bool> UpdateAsync(Room room)
+        {
+            _context.Entry(room).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await RoomExists(room.Id))
+                {
+                    return false;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return true;
+        }
+
+        private async Task<bool> RoomExists(int id)
+        {
+            return await _context.Rooms.AnyAsync(e => e.Id == id);
         }
     }
 }

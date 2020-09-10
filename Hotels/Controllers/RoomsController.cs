@@ -16,12 +16,10 @@ namespace Hotels.Controllers
     public class RoomsController : ControllerBase
     {
         private readonly IRoomRepository repository;
-        private readonly HotelDbContext _context;
 
-        public RoomsController(IRoomRepository repository, HotelDbContext context)
+        public RoomsController(IRoomRepository repository)
         {
             this.repository = repository;
-            _context = context;
         }
 
         // GET: api/Rooms
@@ -56,22 +54,11 @@ namespace Hotels.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(room).State = EntityState.Modified;
+            bool didUpdate = await repository.UpdateAsync(room);
 
-            try
+            if (!didUpdate)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RoomExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return NoContent();
@@ -99,14 +86,7 @@ namespace Hotels.Controllers
                 return NotFound();
             }
 
-            await _context.SaveChangesAsync();
-
             return room;
-        }
-
-        private bool RoomExists(int id)
-        {
-            return _context.Rooms.Any(e => e.Id == id);
         }
     }
 }
