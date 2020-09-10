@@ -13,12 +13,13 @@ namespace Hotels.Data
         {
             modelBuilder.Entity<Room>()
                 .HasData(
-                    new Room { Id = 1, Name = "Honeymoon Suite", Layout = 4 },
-                    new Room { Id = 2, Name = "Single King", Layout = 1 }
+                    new Room { Id = 1, Name = "Honeymoon Suite", Layout = Room.RoomLayout.Studio },
+                    new Room { Id = 2, Name = "Single King", Layout = Room.RoomLayout.OneBedroom }
                 );
         }
 
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<Amenity> Amenities { get; set; }
     }
 }
