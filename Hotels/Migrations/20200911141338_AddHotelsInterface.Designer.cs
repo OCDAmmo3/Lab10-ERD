@@ -3,14 +3,16 @@ using Hotels.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hotels.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200911141338_AddHotelsInterface")]
+    partial class AddHotelsInterface
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,25 +22,17 @@ namespace Hotels.Migrations
 
             modelBuilder.Entity("Hotels.Models.Amenity", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Amenities");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Name = "Mini Fridge"
-                        });
                 });
 
             modelBuilder.Entity("Hotels.Models.Hotel", b =>
@@ -85,9 +79,9 @@ namespace Hotels.Migrations
 
             modelBuilder.Entity("Hotels.Models.Room", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Layout")
@@ -104,13 +98,13 @@ namespace Hotels.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1L,
+                            Id = 1,
                             Layout = 0,
                             Name = "Honeymoon Suite"
                         },
                         new
                         {
-                            Id = 2L,
+                            Id = 2,
                             Layout = 1,
                             Name = "Single King"
                         });

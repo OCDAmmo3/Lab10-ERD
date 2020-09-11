@@ -13,48 +13,48 @@ namespace Hotels.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoomsController : ControllerBase
+    public class HotelsController : ControllerBase
     {
-        private readonly IRoomRepository repository;
+        private readonly IHotelRepository repository;
 
-        public RoomsController(IRoomRepository repository)
+        public HotelsController(IHotelRepository repository)
         {
             this.repository = repository;
         }
 
-        // GET: api/Rooms
+        // GET: api/Hotels
         [HttpGet]
-        public async Task<IEnumerable<Room>> GetRooms()
+        public async Task<IEnumerable<Hotel>> GetHotels()
         {
             return await repository.GetAllAsync();
         }
 
-        // GET: api/Rooms/5
+        // GET: api/Hotels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Room>> GetRoom(long id)
+        public async Task<ActionResult<Hotel>> GetHotel(long id)
         {
-            var room = await repository.GetOneByIdAsync(id);
+            var hotel = await repository.GetOneByIdAsync(id);
 
-            if (room == null)
+            if (hotel == null)
             {
                 return NotFound();
             }
 
-            return room;
+            return hotel;
         }
 
-        // PUT: api/Rooms/5
+        // PUT: api/Hotels/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRoom(long id, Room room)
+        public async Task<IActionResult> PutHotel(long id, Hotel hotel)
         {
-            if (id != room.Id)
+            if (id != hotel.Id)
             {
                 return BadRequest();
             }
 
-            bool didUpdate = await repository.UpdateAsync(room);
+            bool didUpdate = await repository.UpdateAsync(hotel);
 
             if (!didUpdate)
             {
@@ -64,29 +64,29 @@ namespace Hotels.Controllers
             return NoContent();
         }
 
-        // POST: api/Rooms
+        // POST: api/Hotels
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Room>> PostRoom(Room room)
+        public async Task<ActionResult<Hotel>> PostHotel(Hotel hotel)
         {
-            await repository.CreateAsync(room);
+            await repository.CreateAsync(hotel);
 
-            return CreatedAtAction("GetRoom", new { id = room.Id }, room);
+            return CreatedAtAction("GetHotel", new { id = hotel.Id }, hotel);
         }
 
-        // DELETE: api/Rooms/5
+        // DELETE: api/Hotels/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Room>> DeleteRoom(long id)
+        public async Task<ActionResult<Hotel>> DeleteHotel(long id)
         {
-            Room room = await repository.DeleteAsync(id);
+            Hotel hotel = await repository.DeleteAsync(id);
 
-            if (room == null)
+            if (hotel == null)
             {
                 return NotFound();
             }
 
-            return room;
+            return hotel;
         }
     }
 }

@@ -17,6 +17,6 @@ namespace Hotels.Models
         public string City { get; set; }
         [Required]
         public string State { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
     }
 }
