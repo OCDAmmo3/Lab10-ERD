@@ -7,9 +7,9 @@ namespace Hotels.Services
     public interface IRoomRepository
     {
         Task<IEnumerable<Room>> GetAllAsync();
-        Task<Room> GetOneByIdAsync(int id);
+        Task<Room> GetOneByIdAsync(long id);
         Task CreateAsync(Room room);
-        Task<Room> DeleteAsync(int id);
+        Task<Room> DeleteAsync(long id);
         Task<bool> UpdateAsync(Room room);
     }
 }

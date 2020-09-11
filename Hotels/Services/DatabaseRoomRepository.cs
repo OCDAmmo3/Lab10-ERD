@@ -23,7 +23,7 @@ namespace Hotels.Services
             return await _context.Rooms.ToListAsync();
         }
 
-        public async Task<Room> GetOneByIdAsync(int id)
+        public async Task<Room> GetOneByIdAsync(long id)
         {
             var room = await _context.Rooms.FindAsync(id);
             return room;
@@ -35,7 +35,7 @@ namespace Hotels.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Room> DeleteAsync(int id)
+        public async Task<Room> DeleteAsync(long id)
         {
             var room = await _context.Rooms.FindAsync(id);
 
@@ -71,7 +71,7 @@ namespace Hotels.Services
             return true;
         }
 
-        private async Task<bool> RoomExists(int id)
+        private async Task<bool> RoomExists(long id)
         {
             return await _context.Rooms.AnyAsync(e => e.Id == id);
         }

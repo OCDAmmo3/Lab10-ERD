@@ -31,7 +31,7 @@ namespace Hotels.Controllers
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Room>> GetRoom(int id)
+        public async Task<ActionResult<Room>> GetRoom(long id)
         {
             var room = await repository.GetOneByIdAsync(id);
 
@@ -47,7 +47,7 @@ namespace Hotels.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRoom(int id, Room room)
+        public async Task<IActionResult> PutRoom(long id, Room room)
         {
             if (id != room.Id)
             {
@@ -77,7 +77,7 @@ namespace Hotels.Controllers
 
         // DELETE: api/Rooms/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Room>> DeleteRoom(int id)
+        public async Task<ActionResult<Room>> DeleteRoom(long id)
         {
             Room room = await repository.DeleteAsync(id);
 
