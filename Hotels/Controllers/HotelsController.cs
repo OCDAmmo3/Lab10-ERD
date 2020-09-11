@@ -54,22 +54,11 @@ namespace Hotels.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(hotel).State = EntityState.Modified;
+            bool didUpdate = await repository.UpdateAsync(hotel);
 
-            try
+            if (!didUpdate)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!HotelExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return NoContent();
@@ -81,8 +70,7 @@ namespace Hotels.Controllers
         [HttpPost]
         public async Task<ActionResult<Hotel>> PostHotel(Hotel hotel)
         {
-            _context.Hotels.Add(hotel);
-            await _context.SaveChangesAsync();
+            await repository.CreateAsync(hotel);
 
             return CreatedAtAction("GetHotel", new { id = hotel.Id }, hotel);
         }
@@ -91,21 +79,14 @@ namespace Hotels.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Hotel>> DeleteHotel(long id)
         {
-            var hotel = await _context.Hotels.FindAsync(id);
+            Hotel hotel = await repository.DeleteAsync(id);
+
             if (hotel == null)
             {
                 return NotFound();
             }
 
-            _context.Hotels.Remove(hotel);
-            await _context.SaveChangesAsync();
-
             return hotel;
-        }
-
-        private bool HotelExists(long id)
-        {
-            return _context.Hotels.Any(e => e.Id == id);
         }
     }
 }
