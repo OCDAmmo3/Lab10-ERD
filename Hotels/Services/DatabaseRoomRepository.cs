@@ -75,5 +75,17 @@ namespace Hotels.Services
         {
             return await _context.Rooms.AnyAsync(e => e.Id == id);
         }
+
+        public async Task AddAmenityAsync(long amenityId, long roomId)
+        {
+            var roomAmenity = new RoomAmenity
+            {
+                AmenityId = amenityId,
+                RoomId = roomId
+            };
+
+            _context.RoomAmenities.Add(roomAmenity);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace Hotels.Services
         Task CreateAsync(Room room);
         Task<Room> DeleteAsync(long id);
         Task<bool> UpdateAsync(Room room);
+        Task AddAmenityAsync(long amenityId, long roomId);
     }
 }

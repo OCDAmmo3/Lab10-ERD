@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hotels.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace Hotels.Models
         public long Id { get; set; }
         [Required]
         public string Name { get; set; }
+
+        public List<RoomAmenity> RoomAmenities { get; set; }
     }
 }

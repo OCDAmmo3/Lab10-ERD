@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Hotels.Models
 {
@@ -14,6 +11,8 @@ namespace Hotels.Models
         public string Name { get; set; }
         [Required]
         public RoomLayout Layout { get; set; }
+
+        public List<RoomAmenity> RoomAmenities { get; set; }
 
         public enum RoomLayout
         {
