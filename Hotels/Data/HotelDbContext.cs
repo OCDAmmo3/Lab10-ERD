@@ -20,6 +20,10 @@ namespace Hotels.Data
                 .HasData(
                     new Hotel { Id = 1, Name = "Marriot CR", StreetAddress = "3350 26th Ave", City = "Cedar Rapids", State = "IA", Phone = "3193730354" }
                 );
+            modelBuilder.Entity<Amenity>()
+                .HasData(
+                    new Amenity { Id = 1, Name = "Mini Fridge" }
+                );
         }
 
         public DbSet<Hotel> Hotels { get; set; }
