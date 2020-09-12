@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Hotels.Data;
 using Hotels.Services;
 using Microsoft.AspNetCore.Builder;
@@ -29,7 +26,12 @@ namespace Hotels
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                // No infinite reference looping here.
+                .AddNewtonsoftJson(OptionsBuilderConfigurationExtensions =>
+                {
+                    OptionsBuilderConfigurationExtensions.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
 
             // 3. Register our DbContext with the app
             services.AddDbContext<HotelDbContext>(options =>

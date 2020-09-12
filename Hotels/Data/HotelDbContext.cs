@@ -24,10 +24,17 @@ namespace Hotels.Data
                 .HasData(
                     new Amenity { Id = 1, Name = "Mini Fridge" }
                 );
+            modelBuilder.Entity<RoomAmenity>()
+                .HasKey(roomAmenity => new
+                {
+                    roomAmenity.AmenityId,
+                    roomAmenity.RoomId,
+                });
         }
 
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
+        public DbSet<RoomAmenity> RoomAmenities { get; set; }
     }
 }
