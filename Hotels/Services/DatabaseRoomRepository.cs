@@ -87,5 +87,13 @@ namespace Hotels.Services
             _context.RoomAmenities.Add(roomAmenity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteAmenityAsync(long amenityId, long roomId)
+        {
+            var roomAmenity = await _context.RoomAmenities.FindAsync(amenityId, roomId);
+
+            _context.RoomAmenities.Remove(roomAmenity);
+            await _context.SaveChangesAsync();
+        }
     }
 }
