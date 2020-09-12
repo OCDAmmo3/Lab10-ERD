@@ -1,10 +1,7 @@
 ﻿using Hotels.Data;
 using Hotels.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Hotels.Services
@@ -20,7 +17,10 @@ namespace Hotels.Services
 
         public async Task<IEnumerable<Room>> GetAllAsync()
         {
-            return await _context.Rooms.ToListAsync();
+            return await _context.Rooms
+                .Include(r => r.RoomAmenities)
+                .ThenInclude(ra => ra.Amenity)
+                .ToListAsync();
         }
 
         public async Task<Room> GetOneByIdAsync(long id)
