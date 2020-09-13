@@ -14,5 +14,6 @@ namespace Hotels.Services
         Task<Hotel> DeleteAsync(long id);
         Task<Hotel> GetHotelRoomsById(long hotelId);
         Task AddRoomAsync(long hotelId, long roomId);
+        Task DeleteRoomAsync(long hotelId, long roomId);
     }
 }

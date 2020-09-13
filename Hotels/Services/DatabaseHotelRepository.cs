@@ -100,5 +100,13 @@ namespace Hotels.Services
             _context.HotelRooms.Add(hotelRoom);
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteRoomAsync(long hotelId, long roomId)
+        {
+            var hotelRoom = await _context.HotelRooms.FindAsync(hotelId, roomId);
+
+            _context.HotelRooms.Remove(hotelRoom);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -105,5 +105,12 @@ namespace Hotels.Controllers
             return CreatedAtAction(nameof(AddRoom), new { hotelId, roomId }, null);
         }
 
+        // DELETE: api/Hotels/5/Rooms/12
+        [HttpDelete("{hotelId}/Rooms/{roomId}")]
+        public async Task<ActionResult> DeleteRoom(long hotelId, long roomId)
+        {
+            await repository.DeleteAmenityAsync(hotelId, roomId);
+            return Ok();
+        }
     }
 }
