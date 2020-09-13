@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace Hotels.Models
+﻿namespace Hotels.Models
 {
     public class RoomAmenity
     {

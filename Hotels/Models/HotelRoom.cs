@@ -2,6 +2,7 @@
 {
     public class HotelRoom
     {
+        public long Id { get; set; }
         public long HotelId { get; set; }
         public long RoomId { get; set; }
         public Hotel Hotel { get; set; }
