@@ -88,5 +88,22 @@ namespace Hotels.Controllers
 
             return hotel;
         }
+
+        // GET: api/Hotels/5/Rooms
+        [HttpGet("{id}/Rooms")]
+        public async Task<ActionResult<List<HotelRoom>>> GetHotelRooms(long hotelId)
+        {
+            var hotel = await repository.GetHotelRoomsById(hotelId);
+            return hotel.HotelRooms;
+        }
+
+        // POST: api/Hotels/5/Rooms/12
+        [HttpPost("{hotelId}/Rooms/{roomId}")]
+        public async Task<ActionResult> AddRoom(long hotelId, long roomId)
+        {
+            await repository.AddRoomAsync(hotelId, roomId);
+            return CreatedAtAction(nameof(AddRoom), new { hotelId, roomId }, null);
+        }
+
     }
 }

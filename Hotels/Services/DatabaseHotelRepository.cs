@@ -1,5 +1,6 @@
 ﻿using Hotels.Data;
 using Hotels.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,10 @@ namespace Hotels.Services
 
         public async Task<Hotel> GetOneByIdAsync(long id)
         {
-            var hotel = await _context.Hotels.FindAsync(id);
+            var hotel = await _context.Hotels
+                .Include(h => h.HotelRooms)
+                .ThenInclude(hr => hr.Room)
+                .FirstOrDefaultAsync(h => h.Id == id);
             return hotel;
         }
 
@@ -76,6 +80,25 @@ namespace Hotels.Services
         private async Task<bool> HotelExists(long id)
         {
             return await _context.Hotels.AnyAsync(e => e.Id == id);
+        }
+
+        public async Task<Hotel> GetHotelRoomsById(long hotelId)
+        {
+
+            var hotel = await _context.Hotels.FindAsync(hotelId);
+            return hotel;
+        }
+
+        public async Task AddRoomAsync(long hotelId, long roomId)
+        {
+            var hotelRoom = new HotelRoom
+            {
+                HotelId = hotelId,
+                RoomId = roomId
+            };
+
+            _context.HotelRooms.Add(hotelRoom);
+            await _context.SaveChangesAsync();
         }
     }
 }

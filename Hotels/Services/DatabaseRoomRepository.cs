@@ -27,7 +27,12 @@ namespace Hotels.Services
 
         public async Task<Room> GetOneByIdAsync(long id)
         {
-            var room = await _context.Rooms.FindAsync(id);
+            var room = await _context.Rooms
+                .Include(r => r.RoomAmenities)
+                .ThenInclude(ra => ra.Room)
+                .Include(r => r.HotelRooms)
+                .ThenInclude(hr => hr.Hotel)
+                .FirstOrDefaultAsync(r => r.Id == id);
             return room;
         }
 

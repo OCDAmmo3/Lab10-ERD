@@ -1,4 +1,5 @@
 ﻿using Hotels.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,5 +12,7 @@ namespace Hotels.Services
         Task<bool> UpdateAsync(Hotel hotel);
         Task CreateAsync(Hotel hotel);
         Task<Hotel> DeleteAsync(long id);
+        Task<Hotel> GetHotelRoomsById(long hotelId);
+        Task AddRoomAsync(long hotelId, long roomId);
     }
 }
