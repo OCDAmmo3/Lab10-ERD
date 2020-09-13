@@ -20,6 +20,8 @@ namespace Hotels.Services
             return await _context.Rooms
                 .Include(r => r.RoomAmenities)
                 .ThenInclude(ra => ra.Amenity)
+                .Include(r => r.HotelRooms)
+                .ThenInclude(hr => hr.Hotel)
                 .ToListAsync();
         }
 

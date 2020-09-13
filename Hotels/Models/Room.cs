@@ -14,6 +14,8 @@ namespace Hotels.Models
 
         public List<RoomAmenity> RoomAmenities { get; set; }
 
+        public List<HotelRoom> HotelRooms { get; set; }
+
         public enum RoomLayout
         {
             Studio = 0,
