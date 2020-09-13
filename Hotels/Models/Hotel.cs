@@ -18,5 +18,7 @@ namespace Hotels.Models
         [Required]
         public string State { get; set; }
         public string Phone { get; set; }
+
+        public List<HotelRoom> HotelRooms { get; set; }
     }
 }

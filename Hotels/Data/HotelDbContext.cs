@@ -30,11 +30,18 @@ namespace Hotels.Data
                     roomAmenity.AmenityId,
                     roomAmenity.RoomId,
                 });
+            modelBuilder.Entity<HotelRoom>()
+                .HasKey(hotelRoom => new
+                {
+                    hotelRoom.HotelId,
+                    hotelRoom.RoomNumber
+                });
         }
 
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
         public DbSet<RoomAmenity> RoomAmenities { get; set; }
+        public DbSet<HotelRoom> HotelRooms { get; set; }
     }
 }

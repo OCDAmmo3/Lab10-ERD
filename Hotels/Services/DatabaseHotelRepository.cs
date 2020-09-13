@@ -19,7 +19,10 @@ namespace Hotels.Services
 
         public async Task<IEnumerable<Hotel>> GetAllAsync()
         {
-            return await _context.Hotels.ToListAsync();
+            return await _context.Hotels
+                .Include(h => h.HotelRooms)
+                .ThenInclude(hr => hr.Room)
+                .ToListAsync();
         }
 
         public async Task<Hotel> GetOneByIdAsync(long id)
