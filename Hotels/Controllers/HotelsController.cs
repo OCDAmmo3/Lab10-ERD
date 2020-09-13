@@ -109,7 +109,7 @@ namespace Hotels.Controllers
         [HttpDelete("{hotelId}/Rooms/{roomId}")]
         public async Task<ActionResult> DeleteRoom(long hotelId, long roomId)
         {
-            await repository.DeleteAmenityAsync(hotelId, roomId);
+            await repository.DeleteRoomAsync(hotelId, roomId);
             return Ok();
         }
     }
