@@ -2,6 +2,7 @@
 using Hotels.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Hotels.Services
@@ -20,32 +21,37 @@ namespace Hotels.Services
             return await _context.HotelRooms.ToListAsync();
         }
 
-        public async Task<HotelRoom> GetOneByIdAsync(long id)
+        public async Task<IEnumerable<HotelRoom>> GetHotelRoomsById(long hotelId)
         {
-            var hotelRoom = await _context.HotelRooms.FindAsync(id);
+            var hotelRoom = await _context.HotelRooms.Where(hr => hr.HotelId == hotelId).ToListAsync();
             return hotelRoom;
         }
 
-        public async Task CreateAsync(HotelRoom hotelRoom)
+        public async Task AddRoomAsync(long hotelId, CreateHotelRoom hotelRoom)
         {
-            _context.HotelRooms.Add(hotelRoom);
+            var newHotelRoom = new HotelRoom
+            {
+                HotelId = hotelId,
+                RoomNumber = hotelRoom.RoomNumber
+            };
+            _context.HotelRooms.Add(newHotelRoom);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<HotelRoom> DeleteAsync(long id)
+        public async Task DeleteRoomAsync(long hotelId, int roomNumber)
         {
-            var hotelRoom = await _context.HotelRooms.FindAsync(id);
-
-            if (hotelRoom == null)
-            {
-                return null;
-            }
+            var hotelRoom = await _context.HotelRooms.FindAsync(hotelId, roomNumber);
 
             _context.HotelRooms.Remove(hotelRoom);
             await _context.SaveChangesAsync();
-            return hotelRoom;
         }
 
+        public Task<bool> UpdateAsync(HotelRoom hotelRoom)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /*
         public async Task<bool> UpdateAsync(HotelRoom hotelRoom)
         {
             _context.Entry(hotelRoom).State = EntityState.Modified;
@@ -72,5 +78,6 @@ namespace Hotels.Services
         {
             return await _context.HotelRooms.AnyAsync(e => e.Id == id);
         }
+        */
     }
 }
