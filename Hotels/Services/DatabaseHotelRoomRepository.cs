@@ -58,9 +58,31 @@ namespace Hotels.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task<bool> UpdateAsync(HotelRoom hotelRoom)
+        public async Task<bool> UpdateAsync(HotelRoom hotelRoom)
         {
-            throw new System.NotImplementedException();
+            _context.Entry(hotelRoom).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await RoomExists(hotelRoom.HotelId))
+                {
+                    return false;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return true;
+        }
+
+        private async Task<bool> RoomExists(long hotelId)
+        {
+            return await _context.HotelRooms.AnyAsync(hr => hr.HotelId == hotelId);
         }
     }
 }
