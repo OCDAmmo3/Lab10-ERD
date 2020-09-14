@@ -84,26 +84,25 @@ namespace Hotels.Services
 
         public async Task<Hotel> GetHotelRoomsById(long hotelId)
         {
-
             var hotel = await _context.Hotels.FindAsync(hotelId);
             return hotel;
         }
 
-        public async Task AddRoomAsync(long hotelId, long roomId)
+        public async Task AddRoomAsync(long hotelId, CreateHotelRoom hotelRoom)
         {
-            var hotelRoom = new HotelRoom
+            var newHotelRoom = new HotelRoom
             {
                 HotelId = hotelId,
-                RoomId = roomId
+                RoomNumber = hotelRoom.RoomNumber
             };
 
-            _context.HotelRooms.Add(hotelRoom);
+            _context.HotelRooms.Add(newHotelRoom);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteRoomAsync(long hotelId, long roomId)
+        public async Task DeleteRoomAsync(long hotelId, int roomNumber)
         {
-            var hotelRoom = await _context.HotelRooms.FindAsync(hotelId, roomId);
+            var hotelRoom = await _context.HotelRooms.FindAsync(hotelId, roomNumber);
 
             _context.HotelRooms.Remove(hotelRoom);
             await _context.SaveChangesAsync();
