@@ -48,5 +48,24 @@ namespace Hotels.Controllers
             await repository.DeleteRoomAsync(hotelId, roomNumber);
             return Ok();
         }
+
+        // PUT: api/Hotels/5/Rooms/12
+        [HttpPut("Rooms/{roomNumber}")]
+        public async Task<ActionResult> UpdateRoom(long hotelId, HotelRoom hotelRoom)
+        {
+            if (hotelId != hotelRoom.HotelId)
+            {
+                return BadRequest();
+            }
+
+            bool didUpdate = await repository.UpdateAsync(hotelRoom);
+
+            if (!didUpdate)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
     }
 }
