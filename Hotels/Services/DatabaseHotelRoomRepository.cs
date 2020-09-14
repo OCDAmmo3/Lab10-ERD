@@ -50,34 +50,5 @@ namespace Hotels.Services
         {
             throw new System.NotImplementedException();
         }
-
-        /*
-        public async Task<bool> UpdateAsync(HotelRoom hotelRoom)
-        {
-            _context.Entry(hotelRoom).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await HotelRoomExists(hotelRoom.Id))
-                {
-                    return false;
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return true;
-        }
-
-        private async Task<bool> HotelRoomExists(long id)
-        {
-            return await _context.HotelRooms.AnyAsync(e => e.Id == id);
-        }
-        */
     }
 }
