@@ -25,29 +25,6 @@ namespace Hotels.Controllers
             return hotel;
         }
 
-        /*
-        // PUT: api/HotelRooms/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("")]
-        public async Task<IActionResult> PutHotelRoom(long id, HotelRoom hotelRoom)
-        {
-            if (id != hotelRoom.HotelId)
-            {
-                return BadRequest();
-            }
-
-            bool didUpdate = await repository.UpdateAsync(hotelRoom);
-
-            if (!didUpdate)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
-        */
-
         // POST: api/Hotels/5/Rooms
         [HttpPost("Rooms")]
         public async Task<ActionResult> AddRoom(long hotelId, CreateHotelRoom hotelRoom)
