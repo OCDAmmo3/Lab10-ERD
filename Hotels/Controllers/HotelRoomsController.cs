@@ -21,8 +21,16 @@ namespace Hotels.Controllers
         [HttpGet("Rooms")]
         public async Task<IEnumerable<HotelRoom>> GetHotelRooms(long hotelId)
         {
-            var hotel = await repository.GetHotelRoomsById(hotelId);
-            return hotel;
+            var hotelRooms = await repository.GetHotelRoomsById(hotelId);
+            return hotelRooms;
+        }
+
+        // GET: api/Hotels/5/Rooms/14
+        [HttpGet("Rooms/{roomNumber}")]
+        public async Task<HotelRoom> GetHotelRoomDetails(long hotelId, int roomNumber)
+        {
+            var hotelRoom = await repository.GetHotelRoomAsync(hotelId, roomNumber);
+            return hotelRoom;
         }
 
         // POST: api/Hotels/5/Rooms
