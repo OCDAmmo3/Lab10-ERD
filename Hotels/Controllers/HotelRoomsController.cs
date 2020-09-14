@@ -6,7 +6,7 @@ using Hotels.Services;
 
 namespace Hotels.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Hotels/{hotelId}")]
     [ApiController]
     public class HotelRoomsController : ControllerBase
     {
@@ -17,34 +17,22 @@ namespace Hotels.Controllers
             this.repository = repository;
         }
 
-        // GET: api/HotelRooms
-        [HttpGet]
-        public async Task<IEnumerable<HotelRoom>> GetHotelRooms()
+        // GET: api/Hotels/5/Rooms
+        [HttpGet("Rooms")]
+        public async Task<IEnumerable<HotelRoom>> GetHotelRooms(long hotelId)
         {
-            return await repository.GetAllAsync();
+            var hotel = await repository.GetHotelRoomsById(hotelId);
+            return hotel;
         }
 
-        // GET: api/HotelRooms/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<HotelRoom>> GetHotelRoom(long id)
-        {
-            var hotelRoom = await repository.GetOneByIdAsync(id);
-
-            if (hotelRoom == null)
-            {
-                return NotFound();
-            }
-
-            return hotelRoom;
-        }
-
+        /*
         // PUT: api/HotelRooms/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
+        [HttpPut("")]
         public async Task<IActionResult> PutHotelRoom(long id, HotelRoom hotelRoom)
         {
-            if (id != hotelRoom.Id)
+            if (id != hotelRoom.HotelId)
             {
                 return BadRequest();
             }
@@ -58,30 +46,22 @@ namespace Hotels.Controllers
 
             return NoContent();
         }
+        */
 
-        // POST: api/HotelRooms
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<HotelRoom>> PostHotelRoom(HotelRoom hotelRoom)
+        // POST: api/Hotels/5/Rooms
+        [HttpPost("Rooms")]
+        public async Task<ActionResult> AddRoom(long hotelId, CreateHotelRoom hotelRoom)
         {
-            await repository.CreateAsync(hotelRoom);
-
-            return CreatedAtAction("GetHotelRoom", new { id = hotelRoom.Id }, hotelRoom);
+            await repository.AddRoomAsync(hotelId, hotelRoom);
+            return CreatedAtAction(nameof(AddRoom), new { hotelId, hotelRoom.RoomNumber }, null);
         }
 
-        // DELETE: api/HotelRooms/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<HotelRoom>> DeleteHotelRoom(long id)
+        // DELETE: api/Hotels/5/Rooms/12
+        [HttpDelete("Rooms/{roomNumber}")]
+        public async Task<ActionResult> DeleteRoom(long hotelId, int roomNumber)
         {
-            HotelRoom hotelRoom = await repository.DeleteAsync(id);
-
-            if (hotelRoom == null)
-            {
-                return NotFound();
-            }
-
-            return hotelRoom;
+            await repository.DeleteRoomAsync(hotelId, roomNumber);
+            return Ok();
         }
     }
 }
