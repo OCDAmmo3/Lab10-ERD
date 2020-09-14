@@ -2,6 +2,7 @@
 using Hotels.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Hotels.Services
@@ -15,35 +16,46 @@ namespace Hotels.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<HotelRoom>> GetAllAsync()
+        public async Task<IEnumerable<HotelRoom>> GetHotelRoomsById(long hotelId)
         {
-            return await _context.HotelRooms.ToListAsync();
-        }
-
-        public async Task<HotelRoom> GetOneByIdAsync(long id)
-        {
-            var hotelRoom = await _context.HotelRooms.FindAsync(id);
+            var hotelRoom = await _context.HotelRooms.Where(hr => hr.HotelId == hotelId).ToListAsync();
             return hotelRoom;
         }
 
-        public async Task CreateAsync(HotelRoom hotelRoom)
+        public async Task<HotelRoom> GetHotelRoomAsync(long hotelId, int roomNumber)
         {
-            _context.HotelRooms.Add(hotelRoom);
+            var hotelRoom = await _context.HotelRooms
+                .Where(hr => hr.HotelId == hotelId)
+                .Where(h => h.RoomNumber == roomNumber)
+                .Include(hr => hr.Hotel)
+                .ThenInclude(h => h.HotelRooms)
+                .Include(hr => hr.Room)
+                .ThenInclude(r => r.HotelRooms)
+                .Include(hr => hr.Room)
+                .ThenInclude(r => r.RoomAmenities)
+                .ThenInclude(ra => ra.Amenity)
+                .ThenInclude(a => a.RoomAmenities)
+                .FirstOrDefaultAsync();
+            return hotelRoom;
+        }
+
+        public async Task AddRoomAsync(long hotelId, CreateHotelRoom hotelRoom)
+        {
+            var newHotelRoom = new HotelRoom
+            {
+                HotelId = hotelId,
+                RoomNumber = hotelRoom.RoomNumber
+            };
+            _context.HotelRooms.Add(newHotelRoom);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<HotelRoom> DeleteAsync(long id)
+        public async Task DeleteRoomAsync(long hotelId, int roomNumber)
         {
-            var hotelRoom = await _context.HotelRooms.FindAsync(id);
-
-            if (hotelRoom == null)
-            {
-                return null;
-            }
+            var hotelRoom = await _context.HotelRooms.FindAsync(hotelId, roomNumber);
 
             _context.HotelRooms.Remove(hotelRoom);
             await _context.SaveChangesAsync();
-            return hotelRoom;
         }
 
         public async Task<bool> UpdateAsync(HotelRoom hotelRoom)
@@ -56,7 +68,7 @@ namespace Hotels.Services
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await HotelRoomExists(hotelRoom.Id))
+                if (!await RoomExists(hotelRoom.HotelId))
                 {
                     return false;
                 }
@@ -68,9 +80,9 @@ namespace Hotels.Services
             return true;
         }
 
-        private async Task<bool> HotelRoomExists(long id)
+        private async Task<bool> RoomExists(long hotelId)
         {
-            return await _context.HotelRooms.AnyAsync(e => e.Id == id);
+            return await _context.HotelRooms.AnyAsync(hr => hr.HotelId == hotelId);
         }
     }
 }

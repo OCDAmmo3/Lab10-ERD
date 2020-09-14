@@ -6,10 +6,10 @@ namespace Hotels.Services
 {
     public interface IHotelRoomRepository
     {
-        Task<IEnumerable<HotelRoom>> GetAllAsync();
-        Task<HotelRoom> GetOneByIdAsync(long id);
-        Task CreateAsync(HotelRoom hotelRoom);
-        Task<HotelRoom> DeleteAsync(long id);
+        Task<IEnumerable<HotelRoom>> GetHotelRoomsById(long hotelId);
+        Task AddRoomAsync(long hotelId, CreateHotelRoom hotelRoom);
+        Task DeleteRoomAsync(long hotelId, int roomNumber);
+        Task<HotelRoom> GetHotelRoomAsync(long hotelId, int roomNumber);
         Task<bool> UpdateAsync(HotelRoom hotelRoom);
     }
 }
