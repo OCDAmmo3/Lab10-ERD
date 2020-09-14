@@ -106,8 +106,8 @@ namespace Hotels.Controllers
         }
 
         // DELETE: api/Hotels/5/Rooms/12
-        [HttpDelete("{hotelId}/Rooms/{roomId}")]
-        public async Task<ActionResult> DeleteRoom(long hotelId, long roomId)
+        [HttpDelete("{hotelId}/Rooms/{roomNumber}")]
+        public async Task<ActionResult> DeleteRoom(long hotelId, long roomNumber)
         {
             await repository.DeleteRoomAsync(hotelId, roomId);
             return Ok();
