@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Hotels.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hotels
 {
@@ -13,7 +11,11 @@ namespace Hotels
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            UpdateDatabase(host.Services);
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -22,5 +24,16 @@ namespace Hotels
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        private static void UpdateDatabase(IServiceProvider services)
+        {
+            using (var serviceScope = services.CreateScope())
+            {
+                using (var db = serviceScope.ServiceProvider.GetService<HotelDbContext>())
+                {
+                    db.Database.Migrate();
+                }
+            }
+        }
     }
 }
