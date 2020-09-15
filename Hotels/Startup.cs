@@ -69,7 +69,7 @@ namespace Hotels
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/api/v1/swagger.json", "Hotel Explorer!");
-                options.RoutePrefix = "docs";
+                options.RoutePrefix = "";
             });
 
             app.UseRouting();
