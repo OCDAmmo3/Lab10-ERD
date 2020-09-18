@@ -36,15 +36,23 @@ namespace Hotels.Services
                 .ToList();
         }
 
-        public async Task<Room> GetOneByIdAsync(long id)
+        public RoomDto GetOneByIdAsync(long id)
         {
-            var room = await _context.Rooms
-                .Include(r => r.RoomAmenities)
-                .ThenInclude(ra => ra.Room)
-                .Include(r => r.HotelRooms)
-                .ThenInclude(hr => hr.Hotel)
-                .FirstOrDefaultAsync(r => r.Id == id);
-            return room;
+            return _context.Rooms
+                .Select(room => new RoomDto
+                {
+                    Id = room.Id,
+                    Name = room.Name,
+                    Layout = room.Layout.ToString(),
+                    Amenities = room.RoomAmenities
+                        .Select(ra => new AmenityDto
+                        {
+                            Id = ra.Amenity.Id,
+                            Name = ra.Amenity.Name
+                        })
+                        .ToList()
+                })
+                .FirstOrDefault(r => r.Id == id);
         }
 
         public async Task CreateAsync(Room room)

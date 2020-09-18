@@ -27,9 +27,9 @@ namespace Hotels.Controllers
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Room>> GetRoom(long id)
+        public ActionResult<RoomDto> GetRoom(long id)
         {
-            var room = await repository.GetOneByIdAsync(id);
+            var room = repository.GetOneByIdAsync(id);
 
             if (room == null)
             {

@@ -36,7 +36,7 @@ namespace Hotels.Services
                     Id = amenity.Id,
                     Name = amenity.Name
                 })
-                .FirstOrDefault();
+                .FirstOrDefault(a => a.Id == id);
         }
 
         public async Task CreateAsync(Amenity amenity)
