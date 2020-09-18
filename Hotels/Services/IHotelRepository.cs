@@ -1,4 +1,5 @@
 ﻿using Hotels.Models;
+using Hotels.Models.Api;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace Hotels.Services
 {
     public interface IHotelRepository
     {
-        Task<IEnumerable<Hotel>> GetAllAsync();
+        IEnumerable<HotelDto> GetAllAsync();
         Task<Hotel> GetOneByIdAsync(long id);
         Task<bool> UpdateAsync(Hotel hotel);
         Task CreateAsync(Hotel hotel);
