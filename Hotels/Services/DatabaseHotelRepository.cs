@@ -57,13 +57,42 @@ namespace Hotels.Services
                 .ToList();
         }
 
-        public async Task<Hotel> GetOneByIdAsync(long id)
+        public HotelDto GetOneByIdAsync(long id)
         {
-            var hotel = await _context.Hotels
-                .Include(h => h.HotelRooms)
-                .ThenInclude(hr => hr.Room)
-                .FirstOrDefaultAsync(h => h.Id == id);
-            return hotel;
+            return _context.Hotels
+                .Select(hotel => new HotelDto
+                {
+                    Id = hotel.Id,
+                    Name = hotel.Name,
+                    StreetAddress = hotel.StreetAddress,
+                    City = hotel.City,
+                    State = hotel.State,
+                    Phone = hotel.Phone,
+                    Rooms = hotel.HotelRooms
+                        .Select(hr => new HotelRoomDto
+                        {
+                            HotelId = hr.HotelId,
+                            RoomNumber = hr.RoomNumber,
+                            Rate = hr.Rate,
+                            PetFriendly = hr.PetFriendly,
+                            RoomId = hr.RoomId,
+                            Room = new RoomDto
+                            {
+                                Id = hr.Room.Id,
+                                Name = hr.Room.Name,
+                                Layout = hr.Room.Layout.ToString(),
+                                Amenities = hr.Room.RoomAmenities
+                                        .Select(ra => new AmenityDto
+                                        {
+                                            Id = ra.AmenityId,
+                                            Name = ra.Amenity.Name
+                                        })
+                                        .ToList()
+                            }
+                        })
+                        .ToList()
+                })
+                .FirstOrDefault(h => h.Id == id);
         }
 
         public async Task CreateAsync(Hotel hotel)

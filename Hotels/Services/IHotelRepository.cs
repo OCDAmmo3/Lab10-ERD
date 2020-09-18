@@ -9,7 +9,7 @@ namespace Hotels.Services
     public interface IHotelRepository
     {
         IEnumerable<HotelDto> GetAllAsync();
-        Task<Hotel> GetOneByIdAsync(long id);
+        HotelDto GetOneByIdAsync(long id);
         Task<bool> UpdateAsync(Hotel hotel);
         Task CreateAsync(Hotel hotel);
         Task<Hotel> DeleteAsync(long id);
