@@ -6,6 +6,6 @@ namespace Hotels.Services
 {
     public interface IUserService
     {
-        Task<ApplicationUser> Register(RegisterData data);
+        Task<UserDto> Register(RegisterData data);
     }
 }

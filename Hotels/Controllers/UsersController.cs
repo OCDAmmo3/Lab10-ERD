@@ -18,7 +18,7 @@ namespace Hotels.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult<ApplicationUser>> Register(RegisterData data)
+        public async Task<ActionResult<UserDto>> Register(RegisterData data)
         {
             var user = await userService.Register(data);
             return user;
