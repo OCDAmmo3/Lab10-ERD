@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hotels.Models;
 using Hotels.Services;
+using Hotels.Models.Api;
 
 namespace Hotels.Controllers
 {
@@ -19,9 +20,9 @@ namespace Hotels.Controllers
 
         // GET: api/Rooms
         [HttpGet]
-        public async Task<IEnumerable<Room>> GetRooms()
+        public IEnumerable<RoomDto> GetRooms()
         {
-            return await repository.GetAllAsync();
+            return repository.GetAllAsync();
         }
 
         // GET: api/Rooms/5
