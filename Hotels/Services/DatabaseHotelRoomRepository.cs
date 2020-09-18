@@ -44,7 +44,10 @@ namespace Hotels.Services
             var newHotelRoom = new HotelRoom
             {
                 HotelId = hotelId,
-                RoomNumber = hotelRoom.RoomNumber
+                RoomNumber = hotelRoom.RoomNumber,
+                RoomId = hotelRoom.RoomId,
+                PetFriendly = hotelRoom.PetFriendly,
+                Rate = hotelRoom.Rate
             };
             _context.HotelRooms.Add(newHotelRoom);
             await _context.SaveChangesAsync();
