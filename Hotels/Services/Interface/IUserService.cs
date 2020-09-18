@@ -8,5 +8,7 @@ namespace Hotels.Services
     public interface IUserService
     {
         Task<UserDto> Register(RegisterData data, ModelStateDictionary modelState);
+
+        Task<UserDto> Authenticate(string username, string password);
     }
 }
