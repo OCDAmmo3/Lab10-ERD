@@ -1,7 +1,9 @@
 ﻿using Hotels.Data;
 using Hotels.Models;
+using Hotels.Models.Api;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Hotels.Services
@@ -15,25 +17,42 @@ namespace Hotels.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Room>> GetAllAsync()
+        public async Task<IEnumerable<RoomDto>> GetAllAsync()
         {
             return await _context.Rooms
-                .Include(r => r.RoomAmenities)
-                .ThenInclude(ra => ra.Amenity)
-                .Include(r => r.HotelRooms)
-                .ThenInclude(hr => hr.Hotel)
+                .Select(room => new RoomDto
+                {
+                    Id = room.Id,
+                    Name = room.Name,
+                    Layout = room.Layout.ToString(),
+                    Amenities = room.RoomAmenities
+                        .Select(ra => new AmenityDto
+                        {
+                            Id = ra.Amenity.Id,
+                            Name = ra.Amenity.Name
+                        })
+                        .ToList()
+                })
                 .ToListAsync();
         }
 
-        public async Task<Room> GetOneByIdAsync(long id)
+        public async Task<RoomDto> GetOneByIdAsync(long id)
         {
-            var room = await _context.Rooms
-                .Include(r => r.RoomAmenities)
-                .ThenInclude(ra => ra.Room)
-                .Include(r => r.HotelRooms)
-                .ThenInclude(hr => hr.Hotel)
+            return await _context.Rooms
+                .Select(room => new RoomDto
+                {
+                    Id = room.Id,
+                    Name = room.Name,
+                    Layout = room.Layout.ToString(),
+                    Amenities = room.RoomAmenities
+                        .Select(ra => new AmenityDto
+                        {
+                            Id = ra.Amenity.Id,
+                            Name = ra.Amenity.Name
+                        })
+                        .ToList()
+                })
                 .FirstOrDefaultAsync(r => r.Id == id);
-            return room;
         }
 
         public async Task CreateAsync(Room room)

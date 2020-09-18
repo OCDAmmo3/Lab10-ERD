@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hotels.Models;
 using Hotels.Services;
+using Hotels.Models.Api;
 
 namespace Hotels.Controllers
 {
@@ -19,16 +20,16 @@ namespace Hotels.Controllers
 
         // GET: api/Amenities
         [HttpGet]
-        public async Task<IEnumerable<Amenity>> GetAmenities()
+        public IEnumerable<AmenityDto> GetAmenities()
         {
-            return await repository.GetAllAsync();
+            return repository.GetAllAsync();
         }
 
         // GET: api/Amenities/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Amenity>> GetAmenity(long id)
+        public ActionResult<AmenityDto> GetAmenity(long id)
         {
-            var amenity = await repository.GetOneByIdAsync(id);
+            var amenity = repository.GetOneByIdAsync(id);
 
             if (amenity == null)
             {

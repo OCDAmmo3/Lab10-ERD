@@ -1,4 +1,5 @@
 ﻿using Hotels.Models;
+using Hotels.Models.Api;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,8 +7,8 @@ namespace Hotels.Services
 {
     public interface IRoomRepository
     {
-        Task<IEnumerable<Room>> GetAllAsync();
-        Task<Room> GetOneByIdAsync(long id);
+        Task<IEnumerable<RoomDto>> GetAllAsync();
+        Task<RoomDto> GetOneByIdAsync(long id);
         Task CreateAsync(Room room);
         Task<Room> DeleteAsync(long id);
         Task<bool> UpdateAsync(Room room);

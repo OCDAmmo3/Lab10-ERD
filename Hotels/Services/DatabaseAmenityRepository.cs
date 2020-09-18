@@ -1,7 +1,9 @@
 ﻿using Hotels.Data;
 using Hotels.Models;
+using Hotels.Models.Api;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Hotels.Services
@@ -15,21 +17,26 @@ namespace Hotels.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Amenity>> GetAllAsync()
+        public IEnumerable<AmenityDto> GetAllAsync()
         {
-            return await _context.Amenities
-                .Include(a => a.RoomAmenities)
-                .ThenInclude(ra => ra.Room)
-                .ToListAsync();
+            return _context.Amenities
+                .Select(amenity => new AmenityDto
+                {
+                    Id = amenity.Id,
+                    Name = amenity.Name
+                })
+                .ToList();
         }
 
-        public async Task<Amenity> GetOneByIdAsync(long id)
+        public AmenityDto GetOneByIdAsync(long id)
         {
-            var amenity = await _context.Amenities
-                .Include(a => a.RoomAmenities)
-                .ThenInclude(ra => ra.Room)
-                .FirstOrDefaultAsync(a => a.Id == id);
-            return amenity;
+            return _context.Amenities
+                .Select(amenity => new AmenityDto
+                {
+                    Id = amenity.Id,
+                    Name = amenity.Name
+                })
+                .FirstOrDefault(a => a.Id == id);
         }
 
         public async Task CreateAsync(Amenity amenity)
