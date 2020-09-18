@@ -1,6 +1,7 @@
 ﻿using Hotels.Models;
 using Hotels.Models.Api;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Threading.Tasks;
 
 namespace Hotels.Services
@@ -12,7 +13,7 @@ namespace Hotels.Services
         {
             this.userManager = userManager;
         }
-        public async Task<UserDto> Register(RegisterData data)
+        public async Task<UserDto> Register(RegisterData data, ModelStateDictionary modelState)
         {
             var user = new ApplicationUser
             {
@@ -30,6 +31,16 @@ namespace Hotels.Services
                     Id = user.Id,
                     Username = user.UserName
                 };
+            }
+
+            foreach (var error in result.Errors)
+            {
+                var errorKey =
+                    error.Code.Contains("Password") ? nameof(data.Password) :
+                    error.Code.Contains("Email") ? nameof(data.Email) :
+                    error.Code.Contains("UserName") ? nameof(data.Username) :
+                    "";
+                modelState.AddModelError(errorKey, error.Description);
             }
 
             return null;
