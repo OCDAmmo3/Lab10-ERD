@@ -1,9 +1,10 @@
 ﻿using Hotels.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hotels.Data
 {
-    public class HotelDbContext : DbContext
+    public class HotelDbContext : IdentityDbContext<ApplicationUser>
     {
         public HotelDbContext(DbContextOptions options) : base(options)
         {
@@ -11,6 +12,8 @@ namespace Hotels.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Room>()
                 .HasData(
                     new Room { Id = 1, Name = "Honeymoon Suite", Layout = Room.RoomLayout.Studio },
