@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Hotels.Models;
+using Hotels.Models.Api;
 using Hotels.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Hotels.Controllers
 {
@@ -17,6 +15,13 @@ namespace Hotels.Controllers
         public UsersController(IUserService userService)
         {
             this.userService = userService;
+        }
+
+        [HttpPost("Register")]
+        public async Task<ActionResult<ApplicationUser>> Register(RegisterData data)
+        {
+            var user = await userService.Register(data);
+            return user;
         }
     }
 }
