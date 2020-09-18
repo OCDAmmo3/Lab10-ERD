@@ -27,7 +27,7 @@ namespace Hotels.Tests.Services
 
             // Assert
             var realRoom = await repository.GetOneByIdAsync(room.Id);
-            Assert.Contains(realRoom.RoomAmenities, ra => ra.Amenity.Name == "Jacuzzi");
+            Assert.Contains(realRoom.Amenities, ra => ra.Name == "Jacuzzi");
 
             // Act
             await repository.DeleteAmenityAsync(
@@ -36,7 +36,7 @@ namespace Hotels.Tests.Services
 
             // Assert
             realRoom = await repository.GetOneByIdAsync(room.Id);
-            Assert.DoesNotContain(realRoom.RoomAmenities, ra => ra.Amenity.Name == "Jacuzzi");
+            Assert.DoesNotContain(realRoom.Amenities, ra => ra.Name == "Jacuzzi");
         }
 
         [Fact]

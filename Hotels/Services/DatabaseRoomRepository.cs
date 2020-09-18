@@ -17,9 +17,9 @@ namespace Hotels.Services
             _context = context;
         }
 
-        public IEnumerable<RoomDto> GetAllAsync()
+        public async Task<IEnumerable<RoomDto>> GetAllAsync()
         {
-            return _context.Rooms
+            return await _context.Rooms
                 .Select(room => new RoomDto
                 {
                     Id = room.Id,
@@ -33,12 +33,12 @@ namespace Hotels.Services
                         })
                         .ToList()
                 })
-                .ToList();
+                .ToListAsync();
         }
 
-        public RoomDto GetOneByIdAsync(long id)
+        public async Task<RoomDto> GetOneByIdAsync(long id)
         {
-            return _context.Rooms
+            return await _context.Rooms
                 .Select(room => new RoomDto
                 {
                     Id = room.Id,
@@ -52,7 +52,7 @@ namespace Hotels.Services
                         })
                         .ToList()
                 })
-                .FirstOrDefault(r => r.Id == id);
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task CreateAsync(Room room)

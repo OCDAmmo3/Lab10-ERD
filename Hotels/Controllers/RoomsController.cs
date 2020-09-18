@@ -20,16 +20,16 @@ namespace Hotels.Controllers
 
         // GET: api/Rooms
         [HttpGet]
-        public IEnumerable<RoomDto> GetRooms()
+        public async Task<IEnumerable<RoomDto>> GetRooms()
         {
-            return repository.GetAllAsync();
+            return await repository.GetAllAsync();
         }
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
-        public ActionResult<RoomDto> GetRoom(long id)
+        public async Task<ActionResult<RoomDto>> GetRoom(long id)
         {
-            var room = repository.GetOneByIdAsync(id);
+            var room = await repository.GetOneByIdAsync(id);
 
             if (room == null)
             {
