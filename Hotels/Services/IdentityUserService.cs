@@ -25,7 +25,8 @@ namespace Hotels.Services
                 return new UserDto
                 {
                     Id = user.Id,
-                    Username = user.UserName
+                    Username = user.UserName,
+                    Token = await tokenService.GetToken(user, null)
                 };
             }
             return null;
@@ -47,7 +48,8 @@ namespace Hotels.Services
                 return new UserDto
                 {
                     Id = user.Id,
-                    Username = user.UserName
+                    Username = user.UserName,
+                    Token = await tokenService.GetToken(user, null)
                 };
             }
 
